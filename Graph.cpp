@@ -317,22 +317,24 @@ std::string
 Graph::findConfounders(std::string inVertices, std::string inEdges, int inExposure, int inOutcome, bool quick) {
     Graph me;
     unordered_map<string, int> vertexNames;
-    std::string delimiter = ",";
-    size_t pos = 1;
-    std::string split;
+    int toParse = inVertices.length();
+    string split;
     int i = 0;
-    while ((pos = inVertices.find(delimiter)) != std::string::npos) {
-        split = inVertices.substr(0, pos);
-        vertexNames[split] = i;
-        inVertices.erase(0, pos + delimiter.length());
-        i++;
+    while (toParse > 0) {
+        string nextChar = inVertices.substr(0, 1);
+        if (nextChar == "[" || nextChar == "," || nextChar == "]") {
+            toParse--;
+            inVertices.erase(0, 1);
+        } else {
+            split = inVertices.substr(0, min(inVertices.find(','), min(inVertices.find('['), inVertices.find(']'))));
+            me.addVertex();
+            vertexNames[split] = i;
+            toParse -= split.length();
+            inVertices.erase(0, split.length());
+            i++;
+        }
     }
-    while (i > 0) {
-        me.addVertex();
-        i--;
-    }
-
-    int toParse = inEdges.length();
+    toParse = inEdges.length();
     int edgeCycle = 0;
     int originID, destinationID, weight;
     while (toParse > 0) {
