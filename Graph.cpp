@@ -192,6 +192,12 @@ vector<std::vector<Vertex*>>& Graph::findConfounders(bool quick) {
             }
         }
     }
+    for (int i = 0; i < candidates.size(); i++) {
+        if (candidates.at(i)->outcome || candidates.at(i)->exposure) {
+            candidates.erase(candidates.begin() + i);
+            i--;
+        }
+    }
 
     confounders.emplace_back();
     for (int i = 0; i < pow(2, candidates.size()); i++) {

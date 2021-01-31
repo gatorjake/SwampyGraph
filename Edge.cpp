@@ -62,7 +62,7 @@ bool Edge::isRelativelyDirected(int originID) const {
     return ((origin.id == originID) && forwardDirected) || ((destination.id == originID) && backwardDirected);
 }
 
-void Edge::removeIncidencies(std::vector<Vertex *> candidates) const {
+void Edge::removeIncidencies(std::vector<Vertex*>& candidates) const {
     for (int i = 0; i < candidates.size(); i++) {
         if (candidates.at(i)->id == origin.id || candidates.at(i)->id == destination.id) {
             candidates.erase(candidates.begin() + i);

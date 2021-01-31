@@ -24,7 +24,7 @@ public:
     [[nodiscard]] bool isRelativelyDirected(int originID) const;
     [[nodiscard]] int totalVertexID() const { return origin.id + destination.id; }
     friend std::ostream& operator<<(std::ostream& os, const Edge& edge);
-    void removeIncidencies(std::vector<Vertex *> candidates) const;
+    void removeIncidencies(std::vector<Vertex *>& candidates) const;
     int distributeInDegrees();
     [[nodiscard]] int getOriginID() const { return origin.id; }
 };
