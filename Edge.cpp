@@ -57,3 +57,29 @@ std::ostream &operator<<(std::ostream &os, const Edge& edge) {
     }
     return os;
 }
+
+bool Edge::isRelativelyDirected(int originID) const {
+    return ((origin.id == originID) && forwardDirected) || ((destination.id == originID) && backwardDirected);
+}
+
+void Edge::removeIncidencies(std::vector<Vertex *> candidates) const {
+    for (int i = 0; i < candidates.size(); i++) {
+        if (candidates.at(i)->id == origin.id || candidates.at(i)->id == destination.id) {
+            candidates.erase(candidates.begin() + i);
+            i--;
+        }
+    }
+}
+
+int Edge::distributeInDegrees() {
+    if (forwardDirected) {
+        destination.inDegree++;
+        return destination.id;
+    }
+    if (backwardDirected) {
+        origin.inDegree++;
+        return origin.id;
+    }
+    return -1;
+}
+

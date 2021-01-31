@@ -16,6 +16,10 @@
  */
 class Graph {
     std::vector<Vertex*> vertices;
+    std::vector<std::vector<Vertex*>> confounders;
+    int sufficientSetsFound = 0;
+    std::vector<std::vector<Edge*>> paths;
+    int currentPath = 0;
     std::vector<std::vector<std::vector<Edge*>>> edges;
     int maxVertexID = 0;
 public:
@@ -26,7 +30,13 @@ public:
     Vertex* getVertex(int id) { return vertices.at(id); }
     std::vector<Edge*> getEdges(int originID, int destinationID);
     Edge* getEdge(int originID, int destinationID, int which = 0) { return getEdges(originID, destinationID).at(which); }
+    void identifyPaths();
+    void identifyPaths(int originID, int destinationID);
+    void identifyPaths(int originID, int destinationID, int currentID);
+    std::vector<std::vector<Vertex*>>& findConfounders(bool quick = false);
+    static bool isDirected(std::vector<Edge*> path, int exposureID, int outcomeID);
     ~Graph();
+    void identifyDescendants(int ancestorID, int currentID);
 };
 
 

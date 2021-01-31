@@ -5,6 +5,7 @@
 #ifndef SWAMPYGRAPH_EDGE_H
 #define SWAMPYGRAPH_EDGE_H
 #include <iostream>
+#include <vector>
 #include "Vertex.h"
 #include "Color.h"
 
@@ -20,7 +21,12 @@ public:
     void redirect(bool forward, bool backward);
     void toggleColor(Color& color);
     void setWeight(int newWeight) { weight = newWeight; }
+    [[nodiscard]] bool isRelativelyDirected(int originID) const;
+    [[nodiscard]] int totalVertexID() const { return origin.id + destination.id; }
     friend std::ostream& operator<<(std::ostream& os, const Edge& edge);
+    void removeIncidencies(std::vector<Vertex *> candidates) const;
+    int distributeInDegrees();
+    [[nodiscard]] int getOriginID() const { return origin.id; }
 };
 
 #endif //SWAMPYGRAPH_EDGE_H

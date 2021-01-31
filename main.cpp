@@ -33,8 +33,24 @@ int main() {
     Color yellow(255, 255);
     graph.getVertex(2)->highlight = yellow;
     graph.getEdge(2, 4)->toggleHighlight(yellow);
-    cout << graph << endl;
-    //todo for tomorrow: the error occurs at the breakpoint because the Vertex ID has become arbitrary (along with
-    //its other aspects. We suspect this is a memory leak and therefore should test that with leaker.h.
+    //cout << graph << endl;
+    
+    Graph causal;
+    causal.addVertex();
+    causal.addVertex();
+    causal.addVertex();
+    causal.addVertex();
+    
+    causal.addEdge(causal.getVertex(0), causal.getVertex(1), true);
+    causal.addEdge(causal.getVertex(2), causal.getVertex(0), true);
+    causal.addEdge(causal.getVertex(2), causal.getVertex(1), true);
+    causal.addEdge(causal.getVertex(0), causal.getVertex(3), true);
+    causal.addEdge(causal.getVertex(1), causal.getVertex(3), true);
+
+    causal.getVertex(0)->exposure = true;
+    causal.getVertex(1)->outcome = true;
+    causal.findConfounders();
+    cout << causal << endl;
+    
     return 0;
 }
