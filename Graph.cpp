@@ -5,6 +5,7 @@
 #include "Graph.h"
 #include <iostream>
 #include <cmath>
+#include <unordered_map>
 
 using namespace std;
 
@@ -304,5 +305,77 @@ bool Graph::isDirected(std::vector<Edge*> path, int exposureID, int outcomeID) {
         }
     }
     return true;
+}
+
+std::string
+Graph::findConfounders(std::string inVertices, std::string inEdges, int inExposure, int inOutcome, bool quick) {
+    Graph me;
+    unordered_map<string, int> vertexNames;
+    std::string delimiter = ",";
+    size_t pos = 1;
+    std::string split;
+    int i = 0;
+    while ((pos = inVertices.find(delimiter)) != std::string::npos) {
+        split = inVertices.substr(0, pos);
+        vertexNames[split] = i;
+        inVertices.erase(0, pos + delimiter.length());
+        i++;
+    }
+    while (i > 0) {
+        me.addVertex();
+        i--;
+    }
+
+    int toParse = inEdges.length();
+    int edgeCycle = 0;
+    int originID, destinationID, weight;
+    while (toParse > 0) {
+        string nextChar = inEdges.substr(0, 1);
+        if (nextChar == "[" || nextChar == "," || nextChar == "]") {
+            toParse--;
+            inEdges.erase(0, 1);
+        } else {
+            split = inEdges.substr(0, min(inEdges.find(','), min(inEdges.find('['), inEdges.find(']'))));
+            switch (edgeCycle) {
+                case 0:
+                    originID = vertexNames[split];
+                    break;
+                case 1:
+                    destinationID = vertexNames[split];
+                    break;
+                case 2:
+                    weight = stoi(split);
+                    break;
+                default:
+                    cout << "HELP!" << endl;
+            }
+            edgeCycle += 1;
+            if (edgeCycle == 3) {
+                me.addEdge(me.getVertex(originID), me.getVertex(destinationID), true);
+                me.getEdge(originID, destinationID)->setWeight(weight); //todo: handle case of multiple weighted edges between the same vertices
+                edgeCycle = 0;
+            }
+            toParse -= split.length();
+            inEdges.erase(0, split.length());
+        }
+    }
+
+    me.vertices.at(inExposure)->exposure = true;
+    me.vertices.at(inOutcome)->outcome = true;
+    vector<vector<Vertex*>>& solutions = me.findConfounders(quick);
+    vector<Vertex*>& principleSolution = solutions.at(0);
+    cout << me << endl;
+
+    string s = "[";
+    for (int p = 0; p < principleSolution.size() - 1; p++) {
+        int confounderID = principleSolution.at(p)->id;
+        for (const auto& possibleName : vertexNames) {
+            if (possibleName.second == confounderID) {
+                s += possibleName.first;
+            }
+        }
+    }
+    s += "]";
+    return s;
 }
 

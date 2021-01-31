@@ -49,8 +49,55 @@ int main() {
 
     causal.getVertex(0)->exposure = true;
     causal.getVertex(1)->outcome = true;
-    causal.findConfounders();
-    cout << causal << endl;
-    
+    //causal.findConfounders();
+    //cout << causal << endl;
+
+    Graph M;
+    M.addVertex();
+    M.addVertex();
+    M.addVertex();
+    M.addVertex();
+    M.addVertex();
+    M.addVertex();
+
+    M.addEdge(M.getVertex(0), M.getVertex(4), true);
+    M.addEdge(M.getVertex(1), M.getVertex(2), true);
+    M.addEdge(M.getVertex(1), M.getVertex(0), true);
+    M.addEdge(M.getVertex(3), M.getVertex(2), true);
+    M.addEdge(M.getVertex(3), M.getVertex(4), true);
+    M.addEdge(M.getVertex(4), M.getVertex(5), true);
+    M.addEdge(M.getVertex(0), M.getVertex(5), true);
+
+    M.getVertex(0)->exposure = true;
+    M.getVertex(4)->outcome = true;
+    //M.findConfounders();
+    //cout << M << endl;
+
+    Graph Example5;
+    Example5.addVertex();
+    Example5.addVertex();
+    Example5.addVertex();
+    Example5.addVertex();
+    Example5.addVertex();
+    Example5.addVertex();
+    Example5.addVertex();
+    Example5.addVertex();
+
+    Example5.addEdge(Example5.getVertex(0), Example5.getVertex(1), true);
+    Example5.addEdge(Example5.getVertex(0), Example5.getVertex(4), true);
+    Example5.addEdge(Example5.getVertex(1), Example5.getVertex(2), true);
+    Example5.addEdge(Example5.getVertex(1), Example5.getVertex(4), true);
+    Example5.addEdge(Example5.getVertex(2), Example5.getVertex(3), true);
+    Example5.addEdge(Example5.getVertex(2), Example5.getVertex(5), true);
+    Example5.addEdge(Example5.getVertex(3), Example5.getVertex(4), true);
+    Example5.addEdge(Example5.getVertex(3), Example5.getVertex(6), true);
+    Example5.addEdge(Example5.getVertex(7), Example5.getVertex(4), true);
+    Example5.addEdge(Example5.getVertex(7), Example5.getVertex(5), true);
+
+    Example5.getVertex(2)->exposure = true;
+    Example5.getVertex(4)->outcome = true;
+    Example5.findConfounders();
+    cout << Example5 << endl;
+
     return 0;
 }
