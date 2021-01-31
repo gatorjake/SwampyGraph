@@ -96,11 +96,12 @@ int main() {
 
     Example5.getVertex(2)->exposure = true;
     Example5.getVertex(4)->outcome = true;
-    Example5.findConfounders();
+    //Example5.findConfounders();
     //cout << Example5 << endl;
 
     /*Graph::findConfounders("[Swamphacks, More Coding, Less Sleep, Turning into a Programmer]",
                            "[[Swamphacks, More Coding, 1]]"); */
     //Graph::findConfounders("[2,3,5,7,11,13]", "[[2,5,6],[3,7,6],[2,3,6],[11,2,6],[13,3,6],[11,13,6]]");
+    string result = Graph::findConfounders("[a,b,c]", "[[a,b,1],[c,a,1],[c,b,1]]");
     return 0;
 }

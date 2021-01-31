@@ -380,9 +380,18 @@ Graph::findConfounders(std::string inVertices, std::string inEdges, int inExposu
         for (const auto& possibleName : vertexNames) {
             if (possibleName.second == confounderID) {
                 s += possibleName.first;
+                s += ",";
+                break;
             }
         }
     }
+    int confounderID = principleSolution.at(principleSolution.size() - 1)->id;
+    for (const auto& possibleName : vertexNames) {
+        if (possibleName.second == confounderID) {
+            s += possibleName.first;
+        }
+    }
+
     s += "]";
     return s;
 }
