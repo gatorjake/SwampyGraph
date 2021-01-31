@@ -143,7 +143,7 @@ void Graph::identifyPaths(int originID, int destinationID, int currentID) {
         }
     }}
     vertices.at(currentID)->visited = false;
-    if (paths.at(currentPath).size() > 0) {
+    if (!paths.at(currentPath).empty()) {
         paths.at(currentPath).pop_back();
     } else {
         paths.at(currentPath).clear();
@@ -190,12 +190,6 @@ vector<std::vector<Vertex*>>& Graph::findConfounders(bool quick) {
                     }
                 }
             }
-        }
-    }
-    for (int i = 0; i < candidates.size(); i++) {
-        if (candidates.at(i)->outcome || candidates.at(i)->exposure) {
-            candidates.erase(candidates.begin() + i);
-            i--;
         }
     }
 
@@ -297,11 +291,17 @@ vector<std::vector<Vertex*>>& Graph::findConfounders(bool quick) {
     return confounders;
 }
 
-bool Graph::isDirected(std::vector<Edge*> path, int exposureID, int outcomeID) {
-    if (path.empty()) {
-        return exposureID == outcomeID;
+bool Graph::isDirected(const std::vector<Edge*>& path, int exposureID, int outcomeID, int progress) {
+    if (path.size() - progress == 0) {
+        return true;
     }
-    int auditID = exposureID;
+    for (Edge* edge : path) {
+        if (edge->isRelativelyDirected(exposureID)) {
+            return isDirected(path, edge->totalVertexID() - exposureID, outcomeID, progress + 1);
+        }
+    }
+    return false;
+    /* int auditID = exposureID;
     int pathDex = 0;
     while (auditID != outcomeID) {
         if (path.at(pathDex)->isRelativelyDirected(auditID)) {
@@ -310,7 +310,7 @@ bool Graph::isDirected(std::vector<Edge*> path, int exposureID, int outcomeID) {
             return false;
         }
     }
-    return true;
+    return true; */
 }
 
 std::string

@@ -35,7 +35,7 @@ public:
     void identifyPaths(int originID, int destinationID, int currentID);
     std::vector<std::vector<Vertex*>>& findConfounders(bool quick = false);
     static std::string findConfounders(std::string inVertices, std::string inEdges, int inExposure = 0, int inOutcome = 1, bool quick = true);
-    static bool isDirected(std::vector<Edge*> path, int exposureID, int outcomeID);
+    static bool isDirected(const std::vector<Edge*>& path, int exposureID, int outcomeID, int progress = 0);
     ~Graph();
     void identifyDescendants(int ancestorID, int currentID);
 };
