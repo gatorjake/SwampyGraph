@@ -176,6 +176,7 @@ vector<std::vector<Vertex*>>& Graph::findConfounders(bool quick) {
                     identifyDescendants(outcome->id, outcome->id);
                 }
             }
+            identifyDescendants(exposure->id, exposure->id);
         }
     }
     for (int i = 0; i < maxVertexID; i++) {

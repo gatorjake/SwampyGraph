@@ -99,9 +99,22 @@ int main() {
     //Example5.findConfounders();
     //cout << Example5 << endl;
 
+    Graph Fig3;
+    for (int i = 0; i < 6; i++) { Fig3.addVertex(); }
+    Fig3.addEdge(Fig3.getVertex(1), Fig3.getVertex(2), true);
+    Fig3.addEdge(Fig3.getVertex(3), Fig3.getVertex(2), true);
+    Fig3.addEdge(Fig3.getVertex(2), Fig3.getVertex(4), true);
+    Fig3.addEdge(Fig3.getVertex(1), Fig3.getVertex(0), true);
+    Fig3.addEdge(Fig3.getVertex(3), Fig3.getVertex(5), true);
+
+    Fig3.getVertex(0)->exposure = true;
+    Fig3.getVertex(5)->outcome = true;
+    Fig3.findConfounders();
+    cout << Fig3 << endl;
+
     /*Graph::findConfounders("[Swamphacks, More Coding, Less Sleep, Turning into a Programmer]",
                            "[[Swamphacks, More Coding, 1]]"); */
     //Graph::findConfounders("[2,3,5,7,11,13]", "[[2,5,6],[3,7,6],[2,3,6],[11,2,6],[13,3,6],[11,13,6]]");
-    string result = Graph::findConfounders("[a,b,c]", "[[a,b,1],[c,a,1],[c,b,1]]");
+    //string result = Graph::findConfounders("[a,b,c,d]", "[[a,b,1],[c,a,1],[c,b,1],[d,a,1],[d,b,1]]");
     return 0;
 }
