@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 3.17)
-project(SwampyGraph)
-
+cmake_minimum_required(VERSION 3.2)
 set(CMAKE_CXX_STANDARD 17)
-
-add_executable(SwampyGraph main.cpp Vertex.cpp Vertex.h Edge.cpp Edge.h Color.h Graph.cpp Graph.h)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+project("untitled3")
+set(SOURCE_FILES library.cpp)
+add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES})
